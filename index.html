@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>贊助統計</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 24px auto; padding: 0 16px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .meta { color: #666; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>各方案贊助次數</h1>
+<p class="meta" id="meta">載入中…</p>
+<table>
+  <thead><tr><th>方案</th><th>金額</th><th>已被贊助</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<script>
+// 同源讀取，不會有 CORS 問題；加時間參數避開快取
+fetch('data/rewards.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('meta').textContent =
+      `總計 ${data.total_backers} 次・更新於 ${new Date(data.updated_at).toLocaleString('zh-TW')}`;
+    document.getElementById('rows').innerHTML = data.rewards.map(r => `
+      <tr>
+        <td>${r.title}${r.remaining != null ? `（剩 ${r.remaining} 份）` : ''}</td>
+        <td class="num">NT$ ${r.price.toLocaleString()}</td>
+        <td class="num">${r.backers} 次</td>
+      </tr>`).join('');
+  })
+  .catch(() => document.getElementById('meta').textContent = '資料載入失敗');
+</script>
+</body>
+</html>
