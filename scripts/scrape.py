@@ -12,23 +12,44 @@ from urllib.parse import unquote
 SLUG = os.environ.get("PROJECT_SLUG", "NOTHING-LEFT-BUT-COURAGE")
 TARGET = f"https://www.zeczec.com/projects/{SLUG}"
 OUT = os.path.join(os.path.dirname(__file__), "..", "data", "rewards.json")
-UA = "Mozilla/5.0 (compatible; zeczec-tracker/1.0)"
+UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/130.0 Safari/537.36")
 
 
 def get(url, headers=None):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, **(headers or {})})
-    with urllib.request.urlopen(req, timeout=30) as r:
+    req = urllib.request.Request(url, headers={
+        "User-Agent": UA,
+        "Accept": "text/html,application/xhtml+xml",
+        "Accept-Language": "zh-TW,zh;q=0.9",
+        **(headers or {}),
+    })
+    with urllib.request.urlopen(req, timeout=40) as r:
         return r.read().decode("utf-8", "replace")
 
 
-def fetch_html():
-    # 先直連嘖嘖；失敗再改用 r.jina.ai 代抓
-    try:
-        return get(TARGET), "direct"
-    except Exception as e:
-        print(f"direct failed: {e}", file=sys.stderr)
-    return get("https://r.jina.ai/" + TARGET,
-               {"X-Return-Format": "html", "X-No-Cache": "true"}), "jina"
+SOURCES = [
+    ("direct", lambda: get(TARGET)),
+    ("jina", lambda: get("https://r.jina.ai/" + TARGET,
+                         {"X-Return-Format": "html", "X-No-Cache": "true"})),
+]
+
+
+def fetch_rewards():
+    # 依序嘗試每個來源，第一個能解析出方案的就採用
+    for name, fn in SOURCES:
+        try:
+            page = fn()
+        except Exception as e:
+            print(f"[{name}] 請求失敗: {e}")
+            continue
+        rewards = parse(page)
+        title = re.search(r"<title>(.*?)</title>", page, re.S)
+        print(f"[{name}] 長度 {len(page)}，標題 {title.group(1).strip()[:60] if title else '(無)'}，"
+              f"解析到 {len(rewards)} 個方案")
+        if rewards:
+            return rewards, name
+        print(f"[{name}] 開頭內容: {page[:300]!r}")
+    return None, None
 
 
 def text_of(fragment):
@@ -57,10 +78,9 @@ def parse(page):
 
 
 def main():
-    page, source = fetch_html()
-    rewards = parse(page)
+    rewards, source = fetch_rewards()
     if not rewards:
-        sys.exit("沒有解析到任何方案，可能被擋或嘖嘖改版了；保留舊資料不覆寫。")
+        sys.exit("所有來源都沒有解析到方案，可能被擋或嘖嘖改版了；保留舊資料不覆寫。")
 
     # 只有數字有變才更新時間戳，避免每次都產生 commit
     old = {}
