@@ -1,8 +1,7 @@
 name: Update zeczec rewards
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"   # 每 30 分鐘（UTC），GitHub 可能延遲幾分鐘
+  # 排程已停用：GitHub Actions 的 IP 會被嘖嘖的 Cloudflare 擋下，改由 Claude 每日排程更新
   workflow_dispatch:          # 允許在 Actions 頁面手動執行
 
 permissions:
@@ -27,5 +26,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898333+github-actions[bot]@users.noreply.github.com"
-          git add data/rewards.json
+          git add data/rewards.json data/history.json
           git diff --cached --quiet || (git commit -m "Update rewards data" && git push)
