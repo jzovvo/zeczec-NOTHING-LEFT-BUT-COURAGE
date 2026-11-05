@@ -1,55 +1,41 @@
 {
-  "updated_at": "2026-11-04T23:55:49+08:00",
-  "raised": 505611,
-  "goal": 3800000,
+  "updated_at": "2026-11-05T16:29:13+08:00",
   "rewards": [
     {
-      "id": 190227,
-      "title": "1 張交換券｜一路相挺",
-      "price": 1680,
-      "backers": 30
+      "id": 192722,
+      "title": "認購 1/4 份年菜",
+      "backers": 0,
+      "shares": 0.25
     },
     {
-      "id": 190229,
-      "title": "2 張交換券｜母愛恆久",
-      "price": 2900,
-      "backers": 42
+      "id": 192716,
+      "title": "認購一份年菜",
+      "backers": 0,
+      "shares": 1
     },
     {
-      "id": 190230,
-      "title": "3 張交換券｜推向玉山",
-      "price": 3952,
-      "backers": 17
+      "id": 192713,
+      "title": "認購一份，自己買一份",
+      "backers": 0,
+      "shares": 1
     },
     {
-      "id": 190231,
-      "title": "6 張交換券｜一生燦爛",
-      "price": 8953,
-      "backers": 12
+      "id": 192715,
+      "title": "自用一份年菜",
+      "backers": 0,
+      "shares": 0
     },
     {
-      "id": 190228,
-      "title": "理念支持",
-      "price": 580,
-      "backers": 97
+      "id": 192714,
+      "title": "認購 20 份年菜",
+      "backers": 0,
+      "shares": 20
     },
     {
-      "id": 190232,
-      "title": "比媽手繪似顏繪",
-      "price": 25000,
-      "backers": 0
-    },
-    {
-      "id": 190233,
-      "title": "企業支持｜善意永存",
-      "price": 36000,
-      "backers": 1
-    },
-    {
-      "id": 190234,
-      "title": "企業支持｜永續里程",
-      "price": 80000,
-      "backers": 0
+      "id": 191246,
+      "title": "認購 50 份年菜",
+      "backers": 0,
+      "shares": 50
     }
   ]
 }
