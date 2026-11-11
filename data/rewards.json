@@ -1,16 +1,22 @@
 {
-  "updated_at": "2026-11-10T00:01:00+08:00",
+  "updated_at": "2026-11-12T02:48:04+08:00",
   "rewards": [
     {
       "id": 192722,
       "title": "認購 1/4 份年菜",
-      "backers": 5,
+      "backers": 6,
       "shares": 0.25
     },
     {
       "id": 192716,
       "title": "認購一份年菜",
-      "backers": 8,
+      "backers": 9,
+      "shares": 1
+    },
+    {
+      "id": 192713,
+      "title": "認購一份，自己買一份",
+      "backers": 4,
       "shares": 1
     },
     {
@@ -20,15 +26,9 @@
       "shares": 0
     },
     {
-      "id": 192713,
-      "title": "認購一份，自己買一份",
-      "backers": 4,
-      "shares": 1
-    },
-    {
       "id": 192714,
       "title": "認購 20 份年菜",
-      "backers": 0,
+      "backers": 1,
       "shares": 20
     },
     {
